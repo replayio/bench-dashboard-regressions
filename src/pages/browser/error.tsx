@@ -1,7 +1,6 @@
 import { Button } from "@/components/Button";
 import { EmptyLayout } from "@/components/EmptyLayout";
 import { ReplayLogo } from "@/components/ReplayLogo";
-import { Hoverboard } from "@replayio/overboard";
 import assert from "assert";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/navigation";
@@ -29,9 +28,6 @@ export default function Page({
       <div className="flex flex-col gap-4 p-2 pb-6 items-center bg-white text-black rounded-lg">
         <div className="w-96 h-48 flex flex-col p-2 items-center justify-center rounded-md bg-emerald-300 relative">
           <ReplayLogo className="!text-white absolute top-4 left-4" />
-          <div className="w-36 h-36">
-            <Hoverboard />
-          </div>
         </div>
         <div className="text-lg">
           {type === "auth" ? "Unable to Sign In" : "Unexpected recording error"}
