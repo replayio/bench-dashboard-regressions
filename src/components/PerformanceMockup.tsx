@@ -22,7 +22,7 @@ export default function PerformanceMockup({ recordingId, result }: PerformanceMo
         <RecordingDisplay recordingId={recordingId} recordingURL={recordingURL}></RecordingDisplay>
       </div>
       <div className="m-4 overflow-y-auto">
-        {result.summaries.map((summary, index) => {
+        {result.summaries?.map((summary, index) => {
           const props = { summary };
           return <OriginDisplay key={index} {...props}></OriginDisplay>;
         })}
