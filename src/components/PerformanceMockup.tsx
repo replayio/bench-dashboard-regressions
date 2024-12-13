@@ -16,7 +16,7 @@ export default function PerformanceMockup({ recordingId }: PerformanceMockupProp
     if (!result) {
       fetchPerformanceResult(recordingId).then(setResult);
     }
-  });
+  }, [recordingId, result]);
 
   if (!result) {
     return <div className="Status">Loading...</div>;
