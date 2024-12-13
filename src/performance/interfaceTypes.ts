@@ -241,8 +241,12 @@ export interface AnalysisPointError {
 }
 
 export interface PerformanceAnalysisResult {
-  spec: PerformanceAnalysisSpec;
-  summaries: OriginSummary[];
-  errors: AnalysisPointError[];
-  recordingURL: string;
+  version: number;
+  result: string;
+  analysisResult: {
+    spec: PerformanceAnalysisSpec;
+    summaries: OriginSummary[];
+    errors: AnalysisPointError[];
+    recordingURL: string;
+  };
 }
