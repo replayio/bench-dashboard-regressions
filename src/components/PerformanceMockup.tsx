@@ -13,7 +13,7 @@ export default function PerformanceMockup({ recordingId, result }: PerformanceMo
     return <div className="Status">{result}</div>;
   }
 
-  const { recordingURL } = result;
+  const { recordingURL, summaries } = result.analysisResult;
 
   return (
     <div className="App h-screen w-screen flex flex-col text-xl">
@@ -22,7 +22,7 @@ export default function PerformanceMockup({ recordingId, result }: PerformanceMo
         <RecordingDisplay recordingId={recordingId} recordingURL={recordingURL}></RecordingDisplay>
       </div>
       <div className="m-4 overflow-y-auto">
-        {result.summaries.map((summary, index) => {
+        {summaries.map((summary, index) => {
           const props = { summary };
           return <OriginDisplay key={index} {...props}></OriginDisplay>;
         })}
