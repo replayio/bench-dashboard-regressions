@@ -5,20 +5,21 @@ import { OriginDisplay } from "./performance/OriginDisplay";
 import { useEffect, useState } from "react";
 import { fetchPerformanceResult } from "@/performance/performanceResult";
 import { getRecordingId } from "@/performance/params";
+import { assert } from "@/performance/utils";
 
 export default function PerformanceMockup() {
-  const recordingId = getRecordingId();
-  if (!recordingId) {
-    return <div className="Status">Invalid or missing recordingId</div>;
-  }
-
   const [result, setResult] = useState<PerformanceAnalysisResult | string | null>(null);
 
   useEffect(() => {
     if (!result) {
-      fetchPerformanceResult(recordingId).then(setResult);
+      const recordingId = getRecordingId();
+      if (recordingId) {
+        fetchPerformanceResult(recordingId).then(setResult);
+      } else {
+        setResult("Invalid or missing recordingId");
+      }
     }
-  }, [recordingId, result]);
+  }, [result]);
 
   if (!result) {
     return <div className="Status">Loading...</div>;
@@ -29,6 +30,8 @@ export default function PerformanceMockup() {
   }
 
   const { recordingURL } = result;
+  const recordingId = getRecordingId();
+  assert(recordingId);
 
   return (
     <div className="App h-screen w-screen flex flex-col text-xl">

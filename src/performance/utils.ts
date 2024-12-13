@@ -1,4 +1,4 @@
-export function assert(v: any) {
+export function assert(v: any): asserts v {
   if (!v) {
     throw new Error("Assertion Failed!");
   }
