@@ -13,7 +13,7 @@ export async function fetchPerformanceResult(
   recordingId: string
 ): Promise<PerformanceAnalysisResult | string> {
   const filename = getPerformanceCacheFilename(recordingId);
-  const jsonURL = `https://static.replay.io/performance/${filename}`;
+  const jsonURL = `https://corsproxy.io/?url=https://static.replay.io/performance/${filename}`;
 
   let result;
   try {

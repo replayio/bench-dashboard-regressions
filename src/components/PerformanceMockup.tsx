@@ -2,13 +2,26 @@ import { PerformanceAnalysisResult } from "../performance/interfaceTypes";
 
 import { RecordingDisplay } from "./performance/RecordingDisplay";
 import { OriginDisplay } from "./performance/OriginDisplay";
+import { useEffect, useState } from "react";
+import { fetchPerformanceResult } from "@/performance/performanceResult";
 
 interface PerformanceMockupProps {
   recordingId: string;
-  result: PerformanceAnalysisResult;
 }
 
-export default function PerformanceMockup({ recordingId, result }: PerformanceMockupProps) {
+export default function PerformanceMockup({ recordingId }: PerformanceMockupProps) {
+  const [result, setResult] = useState<PerformanceAnalysisResult | string | null>(null);
+
+  useEffect(() => {
+    if (!result) {
+      fetchPerformanceResult(recordingId).then(setResult);
+    }
+  }, [recordingId]);
+
+  if (!result) {
+    return <div className="Status">Loading...</div>;
+  }
+
   if (typeof result == "string") {
     return <div className="Status">{result}</div>;
   }
