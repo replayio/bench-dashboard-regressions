@@ -4,12 +4,14 @@ import { RecordingDisplay } from "./performance/RecordingDisplay";
 import { OriginDisplay } from "./performance/OriginDisplay";
 import { useEffect, useState } from "react";
 import { fetchPerformanceResult } from "@/performance/performanceResult";
+import { getRecordingId } from "@/performance/params";
 
-interface PerformanceMockupProps {
-  recordingId: string;
-}
+export default function PerformanceMockup() {
+  const recordingId = getRecordingId();
+  if (!recordingId) {
+    return <div className="Status">Invalid or missing recordingId</div>;
+  }
 
-export default function PerformanceMockup({ recordingId }: PerformanceMockupProps) {
   const [result, setResult] = useState<PerformanceAnalysisResult | string | null>(null);
 
   useEffect(() => {
