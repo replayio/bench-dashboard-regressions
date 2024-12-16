@@ -29,7 +29,7 @@ export default function PerformanceMockup() {
     return <div className="Status">{result}</div>;
   }
 
-  const { recordingURL } = result;
+  const { recordingURL } = result.analysisResult;
   const recordingId = getRecordingId();
   assert(recordingId);
 
@@ -40,7 +40,7 @@ export default function PerformanceMockup() {
         <RecordingDisplay recordingId={recordingId} recordingURL={recordingURL}></RecordingDisplay>
       </div>
       <div className="m-4 overflow-y-auto">
-        {result.summaries.map((summary, index) => {
+        {result.analysisResult.summaries.map((summary, index) => {
           const props = { summary };
           return <OriginDisplay key={index} {...props}></OriginDisplay>;
         })}
