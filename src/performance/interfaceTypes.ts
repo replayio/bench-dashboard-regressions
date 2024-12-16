@@ -240,9 +240,15 @@ export interface AnalysisPointError {
   why: string;
 }
 
-export interface PerformanceAnalysisResult {
+export interface PerformanceAnalysisData {
   spec: PerformanceAnalysisSpec;
   summaries: OriginSummary[];
   errors: AnalysisPointError[];
   recordingURL: string;
+}
+
+export interface PerformanceAnalysisResult {
+  version: number;
+  result: string;
+  analysisResult: PerformanceAnalysisData;
 }
