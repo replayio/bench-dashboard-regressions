@@ -9,9 +9,15 @@ export function getPerformanceCacheFilename(recordingId: string) {
   return filename;
 }
 
+interface PerformanceAnalysisResponse {
+  version: number;
+  result: string;
+  analysisResult: PerformanceAnalysisResult;
+}
+
 export async function fetchPerformanceResult(
   recordingId: string
-): Promise<PerformanceAnalysisResult | string> {
+): Promise<PerformanceAnalysisResponse | string> {
   const filename = getPerformanceCacheFilename(recordingId);
   const jsonURL = `https://corsproxy.io/?url=https://static.replay.io/performance/${filename}`;
 

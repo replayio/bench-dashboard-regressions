@@ -1,5 +1,4 @@
 import { PerformanceAnalysisResult } from "../performance/interfaceTypes";
-
 import { RecordingDisplay } from "./performance/RecordingDisplay";
 import { OriginDisplay } from "./performance/OriginDisplay";
 import { useEffect, useState } from "react";
@@ -7,8 +6,14 @@ import { fetchPerformanceResult } from "@/performance/performanceResult";
 import { getRecordingId } from "@/performance/params";
 import { assert } from "@/performance/utils";
 
+interface PerformanceAnalysisResponse {
+  version: number;
+  result: string;
+  analysisResult: PerformanceAnalysisResult;
+}
+
 export default function PerformanceMockup() {
-  const [result, setResult] = useState<PerformanceAnalysisResult | string | null>(null);
+  const [result, setResult] = useState<PerformanceAnalysisResponse | string | null>(null);
 
   useEffect(() => {
     if (!result) {
@@ -29,7 +34,11 @@ export default function PerformanceMockup() {
     return <div className="Status">{result}</div>;
   }
 
-  const { recordingURL } = result;
+  if (!result.analysisResult) {
+    return <div className="Status">Invalid result format</div>;
+  }
+
+  const { recordingURL, summaries } = result.analysisResult;
   const recordingId = getRecordingId();
   assert(recordingId);
 
@@ -40,7 +49,7 @@ export default function PerformanceMockup() {
         <RecordingDisplay recordingId={recordingId} recordingURL={recordingURL}></RecordingDisplay>
       </div>
       <div className="m-4 overflow-y-auto">
-        {result.summaries.map((summary, index) => {
+        {summaries && summaries.map((summary, index) => {
           const props = { summary };
           return <OriginDisplay key={index} {...props}></OriginDisplay>;
         })}
