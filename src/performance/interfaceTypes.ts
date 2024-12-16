@@ -246,3 +246,9 @@ export interface PerformanceAnalysisResult {
   errors: AnalysisPointError[];
   recordingURL: string;
 }
+
+export interface PerformanceAnalysisResponse {
+  version: number;
+  result: "Success";
+  analysisResult: PerformanceAnalysisResult;
+}
