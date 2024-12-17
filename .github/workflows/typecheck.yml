@@ -39,5 +39,8 @@ jobs:
 
       - name: Report TypeScript errors to OpenHands
         if: failure()
-        run: |
-          echo "TypeScript output: ${{ steps.typecheck.outputs }}"
+        uses: actions/github-script@v7
+        swith:
+          script: |
+            console.log("TypeScript output: ${{ steps.typecheck.outputs }}")
+            console.log("TypeScript output JSON: ${{ JSON.stringify(steps.typecheck.outputs) }}")
