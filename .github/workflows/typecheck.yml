@@ -45,7 +45,13 @@ jobs:
               }
             };
 
-            await exec.exec('pnpm', ['run', 'typescript'], options);
+            let failed = false;
+            try {
+              await exec.exec('pnpm', ['run', 'typescript'], options);
+            } catch (e) {
+              failed = true;
+            }
 
+            console.log("TypeScript failed: ", failed);
             console.log("TypeScript outputs: ", output);
             console.log("TypeScript errors: ", error);
