@@ -14,7 +14,6 @@ export function RecordingDisplay({ recordingId, recordingURL }: RecordingDisplay
 
   return (
     <div className="RecordingInfo">
-      Recording: &nbsp;
       <RecordingLink
         className="DefaultRecordingLink"
         text={`Recording of ${name}`}
