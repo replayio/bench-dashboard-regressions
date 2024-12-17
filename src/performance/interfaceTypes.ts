@@ -1,5 +1,5 @@
 export const PerformanceAnalysisVersion = 3;
-export const DependencyGraphVersion = 4;
+export const DependencyGraphVersion = 5;
 
 type ProtocolExecutionPoint = string;
 
