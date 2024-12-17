@@ -59,6 +59,11 @@ jobs:
             console.log("TypeScript outputs: ", output);
             console.log("TypeScript errors: ", error);
 
+            if (!failed) {
+              console.log("No type errors, skipping");
+              return;
+            }
+
             const eventPayload = JSON.parse(
               fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8")
             );
