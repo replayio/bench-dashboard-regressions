@@ -68,11 +68,11 @@ export default function PerformanceMockup() {
       <div className="m-4 overflow-y-auto">
         {summaries.map((summary, index) => {
           const mainBranchTimings = mainBranchSummaries
-            .filter(s => s.interactionType === summary.interactionType)
+            .filter(s => s.origin.kind === summary.origin.kind)
             .map(s => s.timing);
 
           const mainBranchNetworkData = mainBranchSummaries
-            .filter(s => s.interactionType === summary.interactionType)
+            .filter(s => s.origin.kind === summary.origin.kind)
             .map(s => s.networkDataByExtension || {});
 
           return (
