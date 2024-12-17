@@ -9,11 +9,13 @@ interface RecordingLinkProps {
   text: React.ReactNode;
   point: string | undefined;
   time: number | undefined;
+  recordingId?: string;
 }
 
 export function RecordingLink(props: RecordingLinkProps) {
-  const { className, point, time, text } = props;
-  const recordingId = getRecordingId();
+  const { className, point, time, text, recordingId: propRecordingId } = props;
+  const urlRecordingId = getRecordingId();
+  const recordingId = propRecordingId || urlRecordingId;
   assert(recordingId);
   let url = `https://app.replay.io/recording/${recordingId}`;
   if (point && time) {
