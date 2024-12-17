@@ -78,5 +78,19 @@ jobs:
               repo,
               issue_number: prNumber,
             });
-            console.log("PR Comments:", comments.data);
-            console.log("PR Comments JSON:", JSON.stringify(comments.data, null, 2));
+            let numRetries = comments.data.filter(
+              comment => comment.body.includes("@openhands-agent")
+            ).length;
+
+            if (numRetries > 10) {
+              console.log("Too many retries, skipping: ", numRetries);
+              return;
+            }
+
+            const commentBody = `@openhands-agent fix this type error:\n\n${output}\n\n${error}`;
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: prNumber,
+              body: commentBody,
+            });
