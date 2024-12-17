@@ -87,11 +87,11 @@ export default function PerformanceMockup() {
             <div key={index} className="mb-8 p-4 border rounded-lg">
               <OriginDisplay summary={summary} />
               
-              {summary.finalScreenshot && (
+              {summary.commitScreenShot && (
                 <div className="mt-4">
                   <h4 className="font-semibold">Final Screenshot:</h4>
                   <img 
-                    src={summary.finalScreenshot} 
+                    src={summary.commitScreenShot.screen} 
                     alt="Final state" 
                     className="max-w-full h-auto mt-2 border"
                   />
