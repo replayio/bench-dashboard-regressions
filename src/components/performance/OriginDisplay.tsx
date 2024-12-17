@@ -83,9 +83,7 @@ export function OriginDisplay(props: OriginDisplayProps) {
 
   return (
     <div className="m-2 gap-4 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg">
-      {isRegressionView ? (
-        <div className="text-sm text-slate-300">{summary.description}</div>
-      ) : (
+      {!isRegressionView && (
         <>
           <OriginSummaryDisplay summary={summary}></OriginSummaryDisplay>
           <ExpandableSection
