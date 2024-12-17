@@ -42,8 +42,5 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const outputs = ${{ steps.typecheck.outputs }};
-            const output = outputs.output;
-            console.log("TypeScript outputs: ", outputs);
-            console.log("TypeScript output: ", output);
-            console.log("TypeScript output JSON: ", JSON.stringify(outputs));
+            const output = "${{ steps.typecheck.outputs.output }}";
+            console.log("TypeScript outputs: ", output);
