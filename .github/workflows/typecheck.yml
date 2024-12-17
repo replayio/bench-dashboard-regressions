@@ -55,3 +55,19 @@ jobs:
             console.log("TypeScript failed: ", failed);
             console.log("TypeScript outputs: ", output);
             console.log("TypeScript errors: ", error);
+
+            const eventPayload = JSON.parse(
+              fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8")
+            );
+            const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
+            const prNumber = eventPayload.pull_request.number;
+            const prRevision = eventPayload.pull_request.head.sha;
+            console.log("PullRequestData", owner, repo, prNumber, prRevision);
+
+            const prContents = await github.rest.issues.get({
+              owner,
+              repo,
+              issue_number: prNumber,
+            });
+
+            console.log("PRContents", prContents.data.title, prContents.data.body);
