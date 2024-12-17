@@ -69,7 +69,15 @@ export default function PerformanceMockup() {
         {summaries.map((summary, index) => {
           const mainBranchTimings = mainBranchSummaries
             .filter(s => s.origin.kind === summary.origin.kind)
-            .map(s => s.timing);
+            .map(s => ({
+              total: s.elapsed,
+              network: s.networkTime,
+              scheduling: s.schedulingTime,
+              mainThread: s.mainThreadTime,
+              workerThread: s.workerThreadTime,
+              timer: s.timerTime,
+              unknown: s.unknownTime
+            }));
 
           const mainBranchNetworkData = mainBranchSummaries
             .filter(s => s.origin.kind === summary.origin.kind)
@@ -91,7 +99,15 @@ export default function PerformanceMockup() {
               )}
 
               <TimingComparison 
-                timing={summary.timing} 
+                timing={{
+                  total: summary.elapsed,
+                  network: summary.networkTime,
+                  scheduling: summary.schedulingTime,
+                  mainThread: summary.mainThreadTime,
+                  workerThread: summary.workerThreadTime,
+                  timer: summary.timerTime,
+                  unknown: summary.unknownTime
+                }}
                 mainBranchTimings={mainBranchTimings}
               />
 
