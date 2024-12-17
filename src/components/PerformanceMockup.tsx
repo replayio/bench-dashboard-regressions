@@ -1,25 +1,43 @@
 import { PerformanceAnalysisResult } from "../performance/interfaceTypes";
-
 import { RecordingDisplay } from "./performance/RecordingDisplay";
 import { OriginDisplay } from "./performance/OriginDisplay";
 import { useEffect, useState } from "react";
 import { fetchPerformanceResult } from "@/performance/performanceResult";
 import { getRecordingId } from "@/performance/params";
 import { assert } from "@/performance/utils";
+import { WorkspaceData, fetchWorkspaceData, getMainBranchRecordings, getRecordingData } from "@/performance/workspaceData";
+import { NetworkDataComparison, TimingComparison } from "./performance/PerformanceComparison";
 
 export default function PerformanceMockup() {
   const [result, setResult] = useState<PerformanceAnalysisResult | string | null>(null);
+  const [workspaceData, setWorkspaceData] = useState<WorkspaceData | null>(null);
+  const [mainBranchResults, setMainBranchResults] = useState<PerformanceAnalysisResult[]>([]);
 
   useEffect(() => {
+    const recordingId = getRecordingId();
+    if (!recordingId) {
+      setResult("Invalid or missing recordingId");
+      return;
+    }
+
     if (!result) {
-      const recordingId = getRecordingId();
-      if (recordingId) {
-        fetchPerformanceResult(recordingId).then(setResult);
-      } else {
-        setResult("Invalid or missing recordingId");
+      fetchPerformanceResult(recordingId).then(setResult);
+    }
+
+    if (typeof result === "object" && result?.analysisResult?.spec?.metadata?.workspaceId && !workspaceData) {
+      const workspaceId = result.analysisResult.spec.metadata.workspaceId;
+      fetchWorkspaceData(workspaceId).then(setWorkspaceData);
+    }
+
+    if (workspaceData && !mainBranchResults.length && typeof result === "object") {
+      const recordingData = getRecordingData(workspaceData, recordingId);
+      if (recordingData) {
+        const mainRecordings = getMainBranchRecordings(workspaceData, recordingData.timestamp);
+        Promise.all(mainRecordings.map(r => fetchPerformanceResult(r.recordingId)))
+          .then(results => setMainBranchResults(results.filter((r): r is PerformanceAnalysisResult => typeof r === "object")));
       }
     }
-  }, [result]);
+  }, [result, workspaceData, mainBranchResults.length]);
 
   if (!result) {
     return <div className="Status">Loading...</div>;
@@ -39,6 +57,8 @@ export default function PerformanceMockup() {
 
   const { recordingURL, summaries } = analysisResult;
 
+  const mainBranchSummaries = mainBranchResults.map(r => r.analysisResult?.summaries || []).flat();
+
   return (
     <div className="App h-screen w-screen flex flex-col text-xl">
       <h1 className="text-5xl self-center">Recording Performance Analysis</h1>
@@ -47,8 +67,56 @@ export default function PerformanceMockup() {
       </div>
       <div className="m-4 overflow-y-auto">
         {summaries.map((summary, index) => {
-          const props = { summary };
-          return <OriginDisplay key={index} {...props}></OriginDisplay>;
+          const mainBranchTimings = mainBranchSummaries
+            .filter(s => s.origin.kind === summary.origin.kind)
+            .map(s => ({
+              total: s.elapsed,
+              network: s.networkTime,
+              scheduling: s.schedulingTime,
+              mainThread: s.mainThreadTime,
+              workerThread: s.workerThreadTime,
+              timer: s.timerTime,
+              unknown: s.unknownTime
+            }));
+
+          const mainBranchNetworkData = mainBranchSummaries
+            .filter(s => s.origin.kind === summary.origin.kind)
+            .map(s => s.networkDataByExtension || {});
+
+          return (
+            <div key={index} className="mb-8 p-4 border rounded-lg">
+              <OriginDisplay summary={summary} />
+              
+              {summary.commitScreenShot && (
+                <div className="mt-4">
+                  <h4 className="font-semibold">Final Screenshot:</h4>
+                  <img 
+                    src={summary.commitScreenShot.screen} 
+                    alt="Final state" 
+                    className="max-w-full h-auto mt-2 border"
+                  />
+                </div>
+              )}
+
+              <TimingComparison 
+                timing={{
+                  total: summary.elapsed,
+                  network: summary.networkTime,
+                  scheduling: summary.schedulingTime,
+                  mainThread: summary.mainThreadTime,
+                  workerThread: summary.workerThreadTime,
+                  timer: summary.timerTime,
+                  unknown: summary.unknownTime
+                }}
+                mainBranchTimings={mainBranchTimings}
+              />
+
+              <NetworkDataComparison 
+                data={summary.networkDataByExtension || {}} 
+                mainBranchData={mainBranchNetworkData}
+              />
+            </div>
+          );
         })}
       </div>
 
