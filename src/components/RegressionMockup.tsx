@@ -70,7 +70,7 @@ export default function RegressionMockup() {
           {mainBranchResults.map((result, index) => (
             <span key={index}>
               <RecordingDisplay 
-                recordingId={result.analysisResult?.recordingId || ''} 
+                recordingId={result.analysisResult?.spec.recordingId || ''} 
                 recordingURL={result.analysisResult?.recordingURL || ''}
               />
               {index < mainBranchResults.length - 1 ? ', ' : ''}
