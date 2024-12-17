@@ -20,6 +20,7 @@ export function RecordingDisplay({ recordingId, recordingURL }: RecordingDisplay
         text={`Recording of ${name}`}
         point={undefined}
         time={undefined}
+        recordingId={recordingId}
       ></RecordingLink>
     </div>
   );
