@@ -243,6 +243,7 @@ export interface OriginSummary extends LimitingPathSummary {
   originScreenShot?: ScaledScreenShot;
   originMouseLocation?: MouseLocation;
   commitScreenShot: ScaledScreenShot;
+  networkDataByExtension?: { [extension: string]: number };
 }
 
 export interface AnalysisPointError {
