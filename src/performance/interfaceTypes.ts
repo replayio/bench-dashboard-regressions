@@ -3,12 +3,22 @@ export const DependencyGraphVersion = 4;
 
 type ProtocolExecutionPoint = string;
 
+export interface PerformanceAnalysisMetadata {
+  workspaceId: string;
+  testTitle: string;
+  repo: string;
+  branch: string;
+  commit: string;
+}
+
 export interface PerformanceAnalysisSpec {
   // Associated recording ID.
   recordingId: string;
 
   // Trigger points to look at.
   triggerPoints?: ProtocolExecutionPoint[];
+
+  metadata?: PerformanceAnalysisMetadata;
 }
 
 export type ReactEventKind = "RenderFiber" | "PassiveEffect" | "LayoutEffect";
