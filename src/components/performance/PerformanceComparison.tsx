@@ -1,5 +1,5 @@
 import { compareWithMainBranch } from "@/performance/workspaceData";
-import { formatDuration } from "@/performance/utils";
+import { formatTime as formatDuration } from "@/performance/utils";
 
 interface ComparisonProps {
   label: string;

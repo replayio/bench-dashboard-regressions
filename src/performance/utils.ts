@@ -8,6 +8,8 @@ export function formatTime(ms: number) {
   return Math.round(ms) + " ms";
 }
 
-export function formatDuration(ms: number) {
+function formatDurationImpl(ms: number) {
   return Math.round(ms) + " ms";
 }
+
+export const formatDuration = formatDurationImpl;
