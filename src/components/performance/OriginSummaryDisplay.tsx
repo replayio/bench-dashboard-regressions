@@ -21,10 +21,11 @@ function getOriginTitle(origin: DependencyChainOrigin) {
 
 interface OriginSummaryProps {
   summary: OriginSummary;
+  isRegressionView?: boolean;
 }
 
 export function OriginSummaryDisplay(props: OriginSummaryProps) {
-  const { summary } = props;
+  const { summary, isRegressionView = false } = props;
 
   const {
     startTime,
@@ -71,6 +72,10 @@ export function OriginSummaryDisplay(props: OriginSummaryProps) {
   );
 
   const otherTime = workerThreadTime + timerTime + unknownTime;
+
+  if (isRegressionView) {
+    return null;
+  }
 
   return (
     <>

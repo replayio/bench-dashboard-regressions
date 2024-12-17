@@ -100,7 +100,7 @@ export default function RegressionMockup() {
 
           return (
             <div key={index} className="mb-8 p-4 border rounded-lg">
-              <OriginDisplay summary={summary} />
+              <OriginDisplay summary={summary} isRegressionView={true} />
               
               {summary.commitScreenShot && (
                 <div className="mt-4">
