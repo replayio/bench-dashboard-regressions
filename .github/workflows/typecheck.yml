@@ -31,6 +31,7 @@ jobs:
       - name: Typecheck and report errors to OpenHands
         uses: actions/github-script@v7
         with:
+          github-token: ${{secrets.PAT_TOKEN}}
           script: |
             const fs = require('fs');
 
@@ -82,12 +83,13 @@ jobs:
               comment => comment.body.includes("@openhands-agent")
             ).length;
 
+            console.log("NumRetries", numRetries);
             if (numRetries > 10) {
-              console.log("Too many retries, skipping: ", numRetries);
+              console.log("Too many retries, skipping");
               return;
             }
 
-            const commentBody = `@openhands-agent fix this type error:\n\n${output}\n\n${error}`;
+            const commentBody = `@openhands-agent fix this type error:\n\n\`\`\`${output}\n\`\`\`\n\n\`\`\`${error}\n\`\`\``;
             await github.rest.issues.createComment({
               owner,
               repo,
