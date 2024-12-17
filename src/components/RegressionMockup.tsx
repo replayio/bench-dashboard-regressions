@@ -8,7 +8,7 @@ import { assert } from "@/performance/utils";
 import { WorkspaceData, fetchWorkspaceData, getMainBranchRecordings, getRecordingData } from "@/performance/workspaceData";
 import { NetworkDataComparison, TimingComparison } from "./performance/PerformanceComparison";
 
-export default function PerformanceMockup() {
+export default function RegressionMockup() {
   const [result, setResult] = useState<PerformanceAnalysisResult | string | null>(null);
   const [workspaceData, setWorkspaceData] = useState<WorkspaceData | null>(null);
   const [mainBranchResults, setMainBranchResults] = useState<PerformanceAnalysisResult[]>([]);
@@ -61,7 +61,7 @@ export default function PerformanceMockup() {
 
   return (
     <div className="App h-screen w-screen flex flex-col text-xl">
-      <h1 className="text-5xl self-center">Performance Analysis</h1>
+      <h1 className="text-5xl self-center">Regression Analysis</h1>
       <div className="self-center">
         <RecordingDisplay recordingId={recordingId} recordingURL={recordingURL}></RecordingDisplay>
       </div>
