@@ -73,4 +73,10 @@ jobs:
             });
 
             console.log("PRContents", prContents.data.title, prContents.data.body);
-            console.log("PR Comments:", prContents.data.comments);
+            const comments = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number: prNumber,
+            });
+            console.log("PR Comments:", comments.data);
+            console.log("PR Comments JSON:", JSON.stringify(comments.data, null, 2));
