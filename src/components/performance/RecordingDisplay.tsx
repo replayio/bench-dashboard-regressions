@@ -13,8 +13,7 @@ export function RecordingDisplay({ recordingId, recordingURL }: RecordingDisplay
   const name = url.host;
 
   return (
-    <div className="RecordingInfo">
-      Recording: &nbsp;
+    <span className="RecordingInfo">
       <RecordingLink
         className="DefaultRecordingLink"
         text={`Recording of ${name}`}
@@ -22,6 +21,6 @@ export function RecordingDisplay({ recordingId, recordingURL }: RecordingDisplay
         time={undefined}
         recordingId={recordingId}
       ></RecordingLink>
-    </div>
+    </span>
   );
 }
