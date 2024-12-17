@@ -49,29 +49,6 @@ export function TestsAndExecutions() {
 
   return (
     <>
-      {isWithinRetentionLimit ? (
-        recordings.length > 0 ? (
-          <div
-            className="bg-slate-900 text-white p-2 rounded"
-            data-test-id="TestExecution-Recordings"
-          >
-            <ExpandableSection label="Replays" openByDefault>
-              <div className="shrink-0 -mx-2">{recordings}</div>
-            </ExpandableSection>
-          </div>
-        ) : (
-          <TestExecutionMessage data-test-name="TestExecution-NoRecordingsMessage">
-            No Replay found. Either the test was not recorded or Replay browser may have crashed
-            before recording.
-          </TestExecutionMessage>
-        )
-      ) : (
-        <TestExecutionMessage data-test-name="TestExecution-RetentionMessage">
-          The replays recorded during this test run are no longer available because of workspace
-          retention limits.
-        </TestExecutionMessage>
-      )}
-
       <TestRunErrors test={selectedTest} />
     </>
   );
