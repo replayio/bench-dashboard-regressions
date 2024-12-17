@@ -73,3 +73,4 @@ jobs:
             });
 
             console.log("PRContents", prContents.data.title, prContents.data.body);
+            console.log("PR Comments:", prContents.data.comments);
