@@ -19,7 +19,7 @@ export interface WorkspaceData {
 }
 
 export async function fetchWorkspaceData(workspaceId: string): Promise<WorkspaceData> {
-  const url = `https://static.replay.io/performance/workspaces/${workspaceId}/workspace-performance-v1-v3-v5-v12.json`;
+  const url = `https://corsproxy.io/?url=https://static.replay.io/performance/workspaces/${workspaceId}/workspace-performance-v1-v3-v5-v12.json`;
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch workspace data: ${response.statusText}`);
