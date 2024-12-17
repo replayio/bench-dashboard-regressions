@@ -63,10 +63,12 @@ export default function RegressionMockup() {
     <div className="App h-screen w-screen flex flex-col text-xl">
       <h1 className="text-5xl self-center">Regression Analysis</h1>
       <div className="self-center">
-        <h3 className="font-semibold">Recording:</h3>
-        <RecordingDisplay recordingId={recordingId} recordingURL={recordingURL}></RecordingDisplay>
-        <h3 className="font-semibold mt-4">Compared With:</h3>
-        <div>
+        <div className="flex items-baseline gap-2">
+          <h3 className="font-semibold">Recording:</h3>
+          <RecordingDisplay recordingId={recordingId} recordingURL={recordingURL} />
+        </div>
+        <div className="flex items-baseline gap-2 mt-4">
+          <h3 className="font-semibold">Compared With:</h3>
           {mainBranchResults.map((result, index) => (
             <span key={index}>
               <RecordingDisplay 
