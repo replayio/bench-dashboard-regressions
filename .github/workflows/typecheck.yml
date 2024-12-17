@@ -43,4 +43,4 @@ jobs:
         with:
           script: |
             console.log("TypeScript output: ${{ steps.typecheck.outputs }}")
-            console.log("TypeScript output JSON: ${{ JSON.stringify(steps.typecheck.outputs) }}")
+            console.log("TypeScript output JSON", JSON.stringify(${{ steps.typecheck.outputs }}))
