@@ -37,7 +37,7 @@ export default function PerformanceMockup() {
           .then(results => setMainBranchResults(results.filter((r): r is PerformanceAnalysisResult => typeof r === "object")));
       }
     }
-  }, [result, workspaceData]);
+  }, [result, workspaceData, mainBranchResults.length]);
 
   if (!result) {
     return <div className="Status">Loading...</div>;
