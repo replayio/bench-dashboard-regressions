@@ -28,16 +28,76 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # Run commands
-      - name: Run Typecheck command
-        id: typecheck
-        run: |
-          TYPECHECK_OUTPUT=$(pnpm run typescript 2>&1)
-          echo "output<<EOF" >> $GITHUB_OUTPUT
-          echo "$TYPECHECK_OUTPUT" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Typecheck and report errors to OpenHands
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.PAT_TOKEN}}
+          script: |
+            const fs = require('fs');
 
-      - name: Report TypeScript errors to OpenHands
-        if: failure()
-        run: |
-          echo "TypeScript output: ${{ steps.typecheck.outputs }}"
+            let output = '';
+            let error = '';
+
+            const options = {};
+            options.listeners = {
+              stdout: (data) => {
+                output += data.toString();
+              },
+              stderr: (data) => {
+                error += data.toString();
+              }
+            };
+
+            let failed = false;
+            try {
+              await exec.exec('pnpm', ['run', 'typescript'], options);
+            } catch (e) {
+              failed = true;
+            }
+
+            console.log("TypeScript failed: ", failed);
+            console.log("TypeScript outputs: ", output);
+            console.log("TypeScript errors: ", error);
+
+            if (!failed) {
+              console.log("No type errors, skipping");
+              return;
+            }
+
+            const eventPayload = JSON.parse(
+              fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8")
+            );
+            const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
+            const prNumber = eventPayload.pull_request.number;
+            const prRevision = eventPayload.pull_request.head.sha;
+            console.log("PullRequestData", owner, repo, prNumber, prRevision);
+
+            const prContents = await github.rest.issues.get({
+              owner,
+              repo,
+              issue_number: prNumber,
+            });
+
+            console.log("PRContents", prContents.data.title, prContents.data.body);
+            const comments = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number: prNumber,
+            });
+            let numRetries = comments.data.filter(
+              comment => comment.body.includes("@openhands-agent")
+            ).length;
+
+            console.log("NumRetries", numRetries);
+            if (numRetries > 10) {
+              console.log("Too many retries, skipping");
+              return;
+            }
+
+            const commentBody = `@openhands-agent fix this type error:\n\n\`\`\`${output}\n\`\`\`\n\n\`\`\`${error}\n\`\`\``;
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: prNumber,
+              body: commentBody,
+            });
