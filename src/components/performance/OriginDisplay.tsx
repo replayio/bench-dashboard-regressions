@@ -8,10 +8,11 @@ import { ExpandableSection } from "@/pageComponents/team/id/runs/ExpandableSecti
 
 interface OriginDisplayProps {
   summary: OriginSummary;
+  isRegressionView?: boolean;
 }
 
 export function OriginDisplay(props: OriginDisplayProps) {
-  const { summary } = props;
+  const { summary, isRegressionView = false } = props;
 
   const steps = useMemo(() => {
     // Fixup the dependency steps to paper over some unknown
@@ -82,13 +83,19 @@ export function OriginDisplay(props: OriginDisplayProps) {
 
   return (
     <div className="m-2 gap-4 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg">
-      <OriginSummaryDisplay summary={summary}></OriginSummaryDisplay>
-      <ExpandableSection
-        grow={false}
-        label={<h4 className="text-2xl font-bold">Detailed Steps</h4>}
-      >
-        <ul>{timelineEntries}</ul>
-      </ExpandableSection>
+      {isRegressionView ? (
+        <div className="text-sm text-slate-300">{summary.description}</div>
+      ) : (
+        <>
+          <OriginSummaryDisplay summary={summary}></OriginSummaryDisplay>
+          <ExpandableSection
+            grow={false}
+            label={<h4 className="text-2xl font-bold">Detailed Steps</h4>}
+          >
+            <ul>{timelineEntries}</ul>
+          </ExpandableSection>
+        </>
+      )}
     </div>
   );
 }
