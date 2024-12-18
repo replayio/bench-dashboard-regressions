@@ -110,10 +110,10 @@ export default function RegressionMockup() {
                     title="Final state"
                     scaledScreenShot={{
                       screen: summary.commitScreenShot.screen,
-                      originalHeight: summary.commitScreenShot.height,
-                      originalWidth: summary.commitScreenShot.width,
-                      scaledHeight: summary.commitScreenShot.height,
-                      scaledWidth: summary.commitScreenShot.width
+                      originalHeight: summary.commitScreenShot.originalHeight,
+                      originalWidth: summary.commitScreenShot.originalWidth,
+                      scaledHeight: summary.commitScreenShot.scaledHeight,
+                      scaledWidth: summary.commitScreenShot.scaledWidth
                     }}
                   />
                 </div>
