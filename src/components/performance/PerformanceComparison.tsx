@@ -91,8 +91,8 @@ export function TimingComparison({ timing, mainBranchTimings }: TimingProps) {
               label={metric}
               value={value}
               mainBranchValues={mainValues}
-              unit=" ms"
-              formatFn={formatDuration}
+              unit={metric === 'networkRoundTrips' ? '' : ' ms'}
+              formatFn={metric === 'networkRoundTrips' ? String : formatDuration}
             />
           );
         })}

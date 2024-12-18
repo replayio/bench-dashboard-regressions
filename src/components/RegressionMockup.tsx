@@ -88,6 +88,7 @@ export default function RegressionMockup() {
             .map(s => ({
               total: s.elapsed,
               network: s.networkTime,
+              networkRoundTrips: s.numNetworkRoundTrips,
               scheduling: s.schedulingTime,
               mainThread: s.mainThreadTime,
               workerThread: s.workerThreadTime,
@@ -123,6 +124,7 @@ export default function RegressionMockup() {
                 timing={{
                   total: summary.elapsed,
                   network: summary.networkTime,
+                  networkRoundTrips: summary.numNetworkRoundTrips,
                   scheduling: summary.schedulingTime,
                   mainThread: summary.mainThreadTime,
                   workerThread: summary.workerThreadTime,
