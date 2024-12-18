@@ -1,12 +1,11 @@
 import { PerformanceAnalysisResult } from "../performance/interfaceTypes";
 import { RecordingDisplay } from "./performance/RecordingDisplay";
-import { OriginDisplay } from "./performance/OriginDisplay";
+import { RegressionOriginDisplay } from "./regression/RegressionOriginDisplay";
 import { useEffect, useState } from "react";
 import { fetchPerformanceResult } from "@/performance/performanceResult";
 import { getRecordingId } from "@/performance/params";
 import { assert } from "@/performance/utils";
 import { WorkspaceData, fetchWorkspaceData, getMainBranchRecordings, getRecordingData } from "@/performance/workspaceData";
-import { NetworkDataComparison, TimingComparison } from "./performance/PerformanceComparison";
 
 export default function RegressionMockup() {
   const [result, setResult] = useState<PerformanceAnalysisResult | string | null>(null);
@@ -57,8 +56,6 @@ export default function RegressionMockup() {
 
   const { recordingURL, summaries } = analysisResult;
 
-  const mainBranchSummaries = mainBranchResults.map(r => r.analysisResult?.summaries || []).flat();
-
   return (
     <div className="App h-screen w-screen flex flex-col text-xl">
       <h1 className="text-5xl self-center">Regression Analysis</h1>
@@ -82,54 +79,9 @@ export default function RegressionMockup() {
       </div>
       <div className="m-4 overflow-y-auto">
         {summaries.map((summary, index) => {
-          const mainBranchTimings = mainBranchSummaries
-            .filter(s => s.origin.kind === summary.origin.kind)
-            .map(s => ({
-              total: s.elapsed,
-              network: s.networkTime,
-              scheduling: s.schedulingTime,
-              mainThread: s.mainThreadTime,
-              workerThread: s.workerThreadTime,
-              timer: s.timerTime,
-              unknown: s.unknownTime
-            }));
-
-          const mainBranchNetworkData = mainBranchSummaries
-            .filter(s => s.origin.kind === summary.origin.kind)
-            .map(s => s.networkDataByExtension || {});
-
           return (
             <div key={index} className="mb-8 p-4 border rounded-lg">
-              <OriginDisplay summary={summary} />
-              
-              {summary.commitScreenShot && (
-                <div className="mt-4">
-                  <h4 className="font-semibold">Final Screenshot:</h4>
-                  <img 
-                    src={summary.commitScreenShot.screen} 
-                    alt="Final state" 
-                    className="max-w-full h-auto mt-2 border"
-                  />
-                </div>
-              )}
-
-              <TimingComparison 
-                timing={{
-                  total: summary.elapsed,
-                  network: summary.networkTime,
-                  scheduling: summary.schedulingTime,
-                  mainThread: summary.mainThreadTime,
-                  workerThread: summary.workerThreadTime,
-                  timer: summary.timerTime,
-                  unknown: summary.unknownTime
-                }}
-                mainBranchTimings={mainBranchTimings}
-              />
-
-              <NetworkDataComparison 
-                data={summary.networkDataByExtension || {}} 
-                mainBranchData={mainBranchNetworkData}
-              />
+              <RegressionOriginDisplay summary={summary} />
             </div>
           );
         })}
