@@ -97,9 +97,9 @@ export default function RegressionMockup() {
               unknown: s.unknownTime
             }));
 
-          const mainBranchNetworkData = mainBranchSummaries
-            .filter(s => s.origin.kind === summary.origin.kind)
-            .map(s => s.networkDataByExtension || {});
+          const mainBranchNetworkData = mainBranchResults
+            .filter(r => r.analysisResult?.summaries.some(s => s.origin.kind === summary.origin.kind))
+            .map(r => getNetworkDataByExtension(r.analysisResult?.requests || []));
 
           return (
             <div key={index} className="mb-8 p-4 border rounded-lg">
