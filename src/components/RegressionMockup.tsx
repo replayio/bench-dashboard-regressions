@@ -106,7 +106,7 @@ export default function RegressionMockup() {
                 <div className="mt-4">
                   <h4 className="font-semibold">Final Screenshot:</h4>
                   <img 
-                    src={summary.commitScreenShot.screen} 
+                    src={`data:image/jpeg;base64,${summary.commitScreenShot.screen}`}
                     alt="Final state" 
                     className="max-w-full h-auto mt-2 border"
                   />
