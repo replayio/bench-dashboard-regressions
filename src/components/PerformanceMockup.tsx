@@ -4,7 +4,7 @@ import { OriginDisplay } from "./performance/OriginDisplay";
 import { useEffect, useState } from "react";
 import { fetchPerformanceResult } from "@/performance/performanceResult";
 import { getRecordingId } from "@/performance/params";
-import { assert } from "@/performance/utils";
+import { assert, getNetworkDataByExtension } from "@/performance/utils";
 import { WorkspaceData, fetchWorkspaceData, getMainBranchRecordings, getRecordingData } from "@/performance/workspaceData";
 import { NetworkDataComparison, TimingComparison } from "./performance/PerformanceComparison";
 
@@ -80,13 +80,13 @@ export default function PerformanceMockup() {
               unknown: s.unknownTime
             }));
 
-          const mainBranchNetworkData = mainBranchSummaries
-            .filter(s => s.origin.kind === summary.origin.kind)
-            .map(s => s.networkDataByExtension || {});
+          const mainBranchNetworkData = mainBranchResults
+            .filter(r => r.analysisResult?.summaries.some(s => s.origin.kind === summary.origin.kind))
+            .map(r => getNetworkDataByExtension(r.analysisResult?.requests || []));
 
           return (
             <div key={index} className="mb-8 p-4 border rounded-lg">
-              <OriginDisplay summary={summary} />
+              <OriginDisplay summary={summary} analysisData={analysisResult} />
               
               {summary.commitScreenShot && (
                 <div className="mt-4">
@@ -114,7 +114,7 @@ export default function PerformanceMockup() {
               />
 
               <NetworkDataComparison 
-                data={summary.networkDataByExtension || {}} 
+                data={getNetworkDataByExtension(analysisResult.requests)} 
                 mainBranchData={mainBranchNetworkData}
               />
             </div>

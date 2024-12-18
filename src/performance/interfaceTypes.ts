@@ -243,7 +243,6 @@ export interface OriginSummary extends LimitingPathSummary {
   originScreenShot?: ScaledScreenShot;
   originMouseLocation?: MouseLocation;
   commitScreenShot: ScaledScreenShot;
-  networkDataByExtension?: { [extension: string]: number };
 }
 
 export interface AnalysisPointError {
@@ -251,11 +250,20 @@ export interface AnalysisPointError {
   why: string;
 }
 
+export interface NetworkRequest {
+  url: string;
+  time: number;
+  point: string;
+  sentBytes: number;
+  receivedBytes: number;
+}
+
 export interface PerformanceAnalysisData {
   spec: PerformanceAnalysisSpec;
   summaries: OriginSummary[];
   errors: AnalysisPointError[];
   recordingURL: string;
+  requests: NetworkRequest[];
 }
 
 export interface PerformanceAnalysisResult {

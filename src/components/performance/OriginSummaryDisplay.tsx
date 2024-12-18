@@ -1,10 +1,18 @@
 import { ExpandableScreenShot } from "./ExpandableScreenShot";
-import { DependencyChainOrigin, OriginSummary } from "../../performance/interfaceTypes";
-import { assert, formatTime } from "../../performance/utils";
+import { DependencyChainOrigin, OriginSummary, PerformanceAnalysisData } from "../../performance/interfaceTypes";
+import { assert, formatTime, getNetworkDataByExtension } from "../../performance/utils";
 import { ExpandableSection } from "@/pageComponents/team/id/runs/ExpandableSection";
 
 // Displays overall information about performance for behavior triggered
 // by an originating event.
+
+function formatBytes(bytes: number): string {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
+}
 
 export function getOriginTitle(origin: DependencyChainOrigin) {
   switch (origin.kind) {
@@ -21,10 +29,11 @@ export function getOriginTitle(origin: DependencyChainOrigin) {
 
 interface OriginSummaryProps {
   summary: OriginSummary;
+  analysisData: PerformanceAnalysisData;
 }
 
 export function OriginSummaryDisplay(props: OriginSummaryProps) {
-  const { summary } = props;
+  const { summary, analysisData } = props;
 
   const {
     startTime,
@@ -101,6 +110,20 @@ export function OriginSummaryDisplay(props: OriginSummaryProps) {
                     <div>React Rendering:{formatTime(timeRender)}</div>
                     <div>React Committing:{formatTime(timeCommit)}</div>
                     <div>React Flushing Effects:{formatTime(timeFlushPassiveEffects)}</div>
+                  </div>
+                </div>
+              </ExpandableSection>
+            </div>
+            <div className="pl-2">
+              <ExpandableSection
+                grow={false}
+                label={<h4 className="text-2xl  font-bold">Network Data by Extension</h4>}
+              >
+                <div className="flex flex-col">
+                  <div className="flex flex-col px-2 py-2">
+                    {Object.entries(getNetworkDataByExtension(analysisData.requests)).map(([ext, bytes]) => (
+                      <div key={ext}>{ext}: {formatBytes(bytes)}</div>
+                    ))}
                   </div>
                 </div>
               </ExpandableSection>
