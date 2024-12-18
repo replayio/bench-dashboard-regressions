@@ -78,11 +78,15 @@ export function TimingComparison({ timing, mainBranchTimings }: TimingProps) {
     Object.keys(t).forEach(metric => allMetrics.add(metric));
   });
 
+  const timingMetrics = Array.from(allMetrics).filter(metric => metric !== 'networkRoundTrips');
+  const networkRoundTrips = timing.networkRoundTrips || 0;
+  const mainBranchNetworkRoundTrips = mainBranchTimings.map(t => t.networkRoundTrips || 0);
+
   return (
     <div className="mt-2">
       <h4 className="font-semibold">Timing Information:</h4>
       <div className="ml-4">
-        {Array.from(allMetrics).map(metric => {
+        {timingMetrics.map(metric => {
           const value = timing[metric] || 0;
           const mainValues = mainBranchTimings.map(t => t[metric] || 0);
           return (
@@ -91,12 +95,19 @@ export function TimingComparison({ timing, mainBranchTimings }: TimingProps) {
               label={metric}
               value={value}
               mainBranchValues={mainValues}
-              unit={metric === 'networkRoundTrips' ? '' : ' ms'}
-              formatFn={metric === 'networkRoundTrips' ? String : formatDuration}
+              unit=" ms"
+              formatFn={formatDuration}
             />
           );
         })}
       </div>
+      <ComparisonValue
+        label="Network Round Trips"
+        value={networkRoundTrips}
+        mainBranchValues={mainBranchNetworkRoundTrips}
+        unit=""
+        formatFn={String}
+      />
     </div>
   );
 }
