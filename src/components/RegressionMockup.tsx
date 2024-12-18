@@ -1,12 +1,12 @@
 import { PerformanceAnalysisResult } from "../performance/interfaceTypes";
 import { RecordingDisplay } from "./performance/RecordingDisplay";
-import { OriginDisplay } from "./performance/OriginDisplay";
 import { useEffect, useState } from "react";
 import { fetchPerformanceResult } from "@/performance/performanceResult";
 import { getRecordingId } from "@/performance/params";
 import { assert } from "@/performance/utils";
 import { WorkspaceData, fetchWorkspaceData, getMainBranchRecordings, getRecordingData } from "@/performance/workspaceData";
 import { NetworkDataComparison, TimingComparison } from "./performance/PerformanceComparison";
+import { getOriginTitle } from "./performance/OriginSummaryDisplay";
 
 export default function RegressionMockup() {
   const [result, setResult] = useState<PerformanceAnalysisResult | string | null>(null);
@@ -100,7 +100,7 @@ export default function RegressionMockup() {
 
           return (
             <div key={index} className="mb-8 p-4 border rounded-lg">
-              <OriginDisplay summary={summary} />
+              <h3 className="text-4xl font-bold mb-4">{getOriginTitle(summary.origin)}</h3>
               
               {summary.commitScreenShot && (
                 <div className="mt-4">
