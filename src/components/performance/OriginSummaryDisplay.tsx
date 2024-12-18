@@ -77,35 +77,17 @@ export function OriginSummaryDisplay(props: OriginSummaryProps) {
       <h3 className="text-4xl font-bold">{title}</h3>
       <div className="flex mt-2">
         <div className="shrink-0 min-w-72">
-          <h4 className="text-2xl font-bold">Timings</h4>
           <div className="flex flex-col mt-2 mr-2">
             <div className="pl-2">
-              <h4 className="text-2xl font-bold">Overall</h4>
-              <div>Started at: {formatTime(startTime)}</div>
-              <div>Elapsed: {formatTime(elapsed)}</div>
-              <div>Network Round Trips: {numNetworkRoundTrips}</div>
-            </div>
-            <div className="pl-2">
-              <ExpandableSection
-                grow={false}
-                label={<h4 className="text-2xl  font-bold">Timing Details</h4>}
-              >
-                <div className="flex flex-col">
-                  <div className="flex flex-col px-2 py-2">
-                    <h4 className="text-xl  font-bold">Breakdown</h4>
-                    <div>Network:{formatTime(networkTime)}</div>
-                    <div>Main Thread: {formatTime(mainThreadTime)}</div>
-                    <div>Scheduling: {formatTime(schedulingTime)}</div>
-                    <div>Other:{formatTime(otherTime)}</div>
-                  </div>
-                  <div className="flex flex-col px-2 py-2">
-                    <h4 className="text-xl  font-bold">Main Thread</h4>
-                    <div>React Rendering:{formatTime(timeRender)}</div>
-                    <div>React Committing:{formatTime(timeCommit)}</div>
-                    <div>React Flushing Effects:{formatTime(timeFlushPassiveEffects)}</div>
-                  </div>
-                </div>
-              </ExpandableSection>
+              <h4 className="text-2xl font-bold">Timing Information:</h4>
+              <div>total: {elapsed} ms</div>
+              <div>network: {networkTime} ms</div>
+              <div>network round trips: {numNetworkRoundTrips}</div>
+              <div>scheduling: {schedulingTime} ms</div>
+              <div>mainThread: {mainThreadTime} ms</div>
+              <div>workerThread: {workerThreadTime} ms</div>
+              <div>timer: {timerTime} ms</div>
+              <div>unknown: {unknownTime} ms</div>
             </div>
           </div>
         </div>
