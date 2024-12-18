@@ -3,9 +3,10 @@ import { RecordingDisplay } from "./performance/RecordingDisplay";
 import { useEffect, useState } from "react";
 import { fetchPerformanceResult } from "@/performance/performanceResult";
 import { getRecordingId } from "@/performance/params";
-import { assert } from "@/performance/utils";
+import { assert, getNetworkDataByExtension } from "@/performance/utils";
 import { WorkspaceData, fetchWorkspaceData, getMainBranchRecordings, getRecordingData } from "@/performance/workspaceData";
 import { NetworkDataComparison, TimingComparison } from "./performance/PerformanceComparison";
+import { OriginDisplay } from "./performance/OriginDisplay";
 import { getOriginTitle } from "./performance/OriginSummaryDisplay";
 import { ExpandableScreenShot } from "./performance/ExpandableScreenShot";
 
@@ -102,23 +103,7 @@ export default function RegressionMockup() {
 
           return (
             <div key={index} className="mb-8 p-4 border rounded-lg">
-              <h3 className="text-4xl font-bold mb-4">{getOriginTitle(summary.origin)}</h3>
-              
-              {summary.commitScreenShot && (
-                <div className="mt-4">
-                  <h4 className="font-semibold">Final Screenshot:</h4>
-                  <ExpandableScreenShot
-                    title=""
-                    scaledScreenShot={{
-                      screen: summary.commitScreenShot.screen,
-                      originalHeight: summary.commitScreenShot.originalHeight,
-                      originalWidth: summary.commitScreenShot.originalWidth,
-                      scaledHeight: summary.commitScreenShot.scaledHeight,
-                      scaledWidth: summary.commitScreenShot.scaledWidth
-                    }}
-                  />
-                </div>
-              )}
+              <OriginDisplay summary={summary} analysisData={analysisResult} />
 
               <TimingComparison 
                 timing={{
@@ -135,7 +120,7 @@ export default function RegressionMockup() {
               />
 
               <NetworkDataComparison 
-                data={summary.networkDataByExtension || {}} 
+                data={getNetworkDataByExtension(analysisResult.requests)} 
                 mainBranchData={mainBranchNetworkData}
               />
             </div>
