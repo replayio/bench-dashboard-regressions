@@ -81,9 +81,14 @@ export function OriginSummaryDisplay(props: OriginSummaryProps) {
           <div className="flex flex-col mt-2 mr-2">
             <div className="pl-2">
               <h4 className="text-2xl font-bold">Overall</h4>
-              <div>Started at: {formatTime(startTime)}</div>
-              <div>Elapsed: {formatTime(elapsed)}</div>
-              <div>Network Round Trips: {numNetworkRoundTrips}</div>
+              <div>total: {formatTime(elapsed)} ms</div>
+              <div>network: {formatTime(networkTime)} ms</div>
+              <div>networkRoundTrips: {numNetworkRoundTrips}</div>
+              <div>scheduling: {formatTime(schedulingTime)} ms</div>
+              <div>mainThread: {formatTime(mainThreadTime)} ms</div>
+              <div>workerThread: {formatTime(workerThreadTime)} ms</div>
+              <div>timer: {formatTime(timerTime)} ms</div>
+              <div>unknown: {formatTime(unknownTime)} ms</div>
             </div>
             <div className="pl-2">
               <ExpandableSection
@@ -91,13 +96,6 @@ export function OriginSummaryDisplay(props: OriginSummaryProps) {
                 label={<h4 className="text-2xl  font-bold">Timing Details</h4>}
               >
                 <div className="flex flex-col">
-                  <div className="flex flex-col px-2 py-2">
-                    <h4 className="text-xl  font-bold">Breakdown</h4>
-                    <div>Network:{formatTime(networkTime)}</div>
-                    <div>Main Thread: {formatTime(mainThreadTime)}</div>
-                    <div>Scheduling: {formatTime(schedulingTime)}</div>
-                    <div>Other:{formatTime(otherTime)}</div>
-                  </div>
                   <div className="flex flex-col px-2 py-2">
                     <h4 className="text-xl  font-bold">Main Thread</h4>
                     <div>React Rendering:{formatTime(timeRender)}</div>
