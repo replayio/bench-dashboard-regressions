@@ -114,10 +114,12 @@ export default function PerformanceMockup() {
                 mainBranchTimings={mainBranchTimings}
               />
 
-              <NetworkDataComparison 
-                data={computeNetworkDataByExtension(analysisResult.requests)} 
-                mainBranchData={mainBranchNetworkData}
-              />
+              {index === 0 && (
+                <NetworkDataComparison 
+                  data={computeNetworkDataByExtension(analysisResult.requests)} 
+                  mainBranchData={mainBranchNetworkData}
+                />
+              )}
             </div>
           );
         })}
