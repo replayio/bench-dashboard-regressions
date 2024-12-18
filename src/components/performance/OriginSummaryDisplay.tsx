@@ -6,7 +6,7 @@ import { ExpandableSection } from "@/pageComponents/team/id/runs/ExpandableSecti
 // Displays overall information about performance for behavior triggered
 // by an originating event.
 
-function getOriginTitle(origin: DependencyChainOrigin) {
+export function getOriginTitle(origin: DependencyChainOrigin) {
   switch (origin.kind) {
     case "documentLoad":
       return "Initial Document Load";
