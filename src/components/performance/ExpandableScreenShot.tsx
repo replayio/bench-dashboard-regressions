@@ -39,7 +39,6 @@ export function ExpandableScreenShot(props: ExpandableScreenShotProps) {
   const imageStyle: React.CSSProperties = {
     height: "100%", // Make the image fill the container width
     width: "100%", // Make the image fill the container height
-    objectFit: "cover", // This maintains the aspect ratio of the image by covering the entire container
   };
 
   const imageSource = `data:image/jpeg;base64,${screen}`;
