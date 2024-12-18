@@ -1,6 +1,6 @@
 import { PerformanceAnalysisResult } from "../performance/interfaceTypes";
 import { RecordingDisplay } from "./performance/RecordingDisplay";
-import { OriginDisplay } from "./performance/OriginDisplay";
+import { RegressionOriginDisplay } from "./performance/RegressionOriginDisplay";
 import { useEffect, useState } from "react";
 import { fetchPerformanceResult } from "@/performance/performanceResult";
 import { getRecordingId } from "@/performance/params";
@@ -100,36 +100,7 @@ export default function RegressionMockup() {
 
           return (
             <div key={index} className="mb-8 p-4 border rounded-lg">
-              <OriginDisplay summary={summary} />
-              
-              {summary.commitScreenShot && (
-                <div className="mt-4">
-                  <h4 className="font-semibold">Final Screenshot:</h4>
-                  <img 
-                    src={summary.commitScreenShot.screen} 
-                    alt="Final state" 
-                    className="max-w-full h-auto mt-2 border"
-                  />
-                </div>
-              )}
-
-              <TimingComparison 
-                timing={{
-                  total: summary.elapsed,
-                  network: summary.networkTime,
-                  scheduling: summary.schedulingTime,
-                  mainThread: summary.mainThreadTime,
-                  workerThread: summary.workerThreadTime,
-                  timer: summary.timerTime,
-                  unknown: summary.unknownTime
-                }}
-                mainBranchTimings={mainBranchTimings}
-              />
-
-              <NetworkDataComparison 
-                data={summary.networkDataByExtension || {}} 
-                mainBranchData={mainBranchNetworkData}
-              />
+              <RegressionOriginDisplay summary={summary} />
             </div>
           );
         })}
