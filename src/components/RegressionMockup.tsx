@@ -7,6 +7,7 @@ import { assert } from "@/performance/utils";
 import { WorkspaceData, fetchWorkspaceData, getMainBranchRecordings, getRecordingData } from "@/performance/workspaceData";
 import { NetworkDataComparison, TimingComparison } from "./performance/PerformanceComparison";
 import { getOriginTitle } from "./performance/OriginSummaryDisplay";
+import { ExpandableScreenShot } from "./performance/ExpandableScreenShot";
 
 export default function RegressionMockup() {
   const [result, setResult] = useState<PerformanceAnalysisResult | string | null>(null);
@@ -105,10 +106,15 @@ export default function RegressionMockup() {
               {summary.commitScreenShot && (
                 <div className="mt-4">
                   <h4 className="font-semibold">Final Screenshot:</h4>
-                  <img 
-                    src={`data:image/jpeg;base64,${summary.commitScreenShot.screen}`}
-                    alt="Final state" 
-                    className="max-w-full h-auto mt-2 border"
+                  <ExpandableScreenShot
+                    title="Final state"
+                    scaledScreenShot={{
+                      screen: summary.commitScreenShot.screen,
+                      originalHeight: summary.commitScreenShot.height,
+                      originalWidth: summary.commitScreenShot.width,
+                      scaledHeight: summary.commitScreenShot.height,
+                      scaledWidth: summary.commitScreenShot.width
+                    }}
                   />
                 </div>
               )}
