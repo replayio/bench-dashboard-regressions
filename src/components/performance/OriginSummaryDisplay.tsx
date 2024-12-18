@@ -64,7 +64,7 @@ export function OriginSummaryDisplay(props: OriginSummaryProps) {
 
   const commitScreenShotElement = (
     <ExpandableScreenShot
-      title="After"
+      title=""
       scaledScreenShot={commitScreenShot}
       mouseLocation={undefined}
     ></ExpandableScreenShot>
@@ -86,15 +86,18 @@ export function OriginSummaryDisplay(props: OriginSummaryProps) {
       <div className="mt-4">
         <h4 className="text-2xl font-bold">Timing Information:</h4>
         <div className="pl-2">
-          <div>total: {elapsed} ms</div>
-          <div>network: {networkTime} ms</div>
+          <div>total: {Math.round(elapsed)} ms</div>
+          <div>network: {Math.round(networkTime)} ms</div>
           <div>network round trips: {numNetworkRoundTrips}</div>
-          <div>scheduling: {schedulingTime} ms</div>
-          <div>mainThread: {mainThreadTime} ms</div>
-          <div>workerThread: {workerThreadTime} ms</div>
-          <div>timer: {timerTime} ms</div>
-          <div>unknown: {unknownTime} ms</div>
+          <div>scheduling: {Math.round(schedulingTime)} ms</div>
+          <div>mainThread: {Math.round(mainThreadTime)} ms</div>
+          <div>workerThread: {Math.round(workerThreadTime)} ms</div>
+          <div>timer: {Math.round(timerTime)} ms</div>
+          <div>unknown: {Math.round(unknownTime)} ms</div>
         </div>
+      </div>
+      <div className="mt-4">
+        <h4 className="text-2xl font-bold">Network Data by Extension:</h4>
       </div>
     </>
   );
