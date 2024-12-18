@@ -72,6 +72,7 @@ export default function PerformanceMockup() {
             .map(s => ({
               total: s.elapsed,
               network: s.networkTime,
+              networkRoundTrips: s.numNetworkRoundTrips,
               scheduling: s.schedulingTime,
               mainThread: s.mainThreadTime,
               workerThread: s.workerThreadTime,
@@ -92,7 +93,7 @@ export default function PerformanceMockup() {
                   <h4 className="font-semibold">Final Screenshot:</h4>
                   <img 
                     src={summary.commitScreenShot.screen} 
-                    alt="Final state" 
+                    alt="" 
                     className="max-w-full h-auto mt-2 border"
                   />
                 </div>
@@ -102,6 +103,7 @@ export default function PerformanceMockup() {
                 timing={{
                   total: summary.elapsed,
                   network: summary.networkTime,
+                  networkRoundTrips: summary.numNetworkRoundTrips,
                   scheduling: summary.schedulingTime,
                   mainThread: summary.mainThreadTime,
                   workerThread: summary.workerThreadTime,
