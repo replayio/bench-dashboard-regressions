@@ -83,12 +83,6 @@ export function OriginDisplay(props: OriginDisplayProps) {
   return (
     <div className="m-2 gap-4 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg">
       <OriginSummaryDisplay summary={summary}></OriginSummaryDisplay>
-      <ExpandableSection
-        grow={false}
-        label={<h4 className="text-2xl font-bold">Detailed Steps</h4>}
-      >
-        <ul>{timelineEntries}</ul>
-      </ExpandableSection>
     </div>
   );
 }
