@@ -107,7 +107,7 @@ export default function RegressionMockup() {
                 <div className="mt-4">
                   <h4 className="font-semibold">Final Screenshot:</h4>
                   <ExpandableScreenShot
-                    title="Final state"
+                    title=""
                     scaledScreenShot={{
                       screen: summary.commitScreenShot.screen,
                       originalHeight: summary.commitScreenShot.originalHeight,
