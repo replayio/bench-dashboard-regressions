@@ -8,6 +8,7 @@ import { WorkspaceData, fetchWorkspaceData, getMainBranchRecordings, getRecordin
 import { NetworkDataComparison, TimingComparison } from "./performance/PerformanceComparison";
 import { getOriginTitle } from "./performance/OriginSummaryDisplay";
 import { ExpandableScreenShot } from "./performance/ExpandableScreenShot";
+import { computeNetworkDataByExtension } from "@/performance/networkData";
 
 export default function RegressionMockup() {
   const [result, setResult] = useState<PerformanceAnalysisResult | string | null>(null);
@@ -96,9 +97,9 @@ export default function RegressionMockup() {
               unknown: s.unknownTime
             }));
 
-          const mainBranchNetworkData = mainBranchSummaries
-            .filter(s => s.origin.kind === summary.origin.kind)
-            .map(s => s.networkDataByExtension || {});
+          const mainBranchNetworkData = mainBranchResults
+            .filter(r => r.analysisResult?.summaries.some(s => s.origin.kind === summary.origin.kind))
+            .map(r => computeNetworkDataByExtension(r.analysisResult?.requests || []));
 
           return (
             <div key={index} className="mb-8 p-4 border rounded-lg">
@@ -135,7 +136,7 @@ export default function RegressionMockup() {
               />
 
               <NetworkDataComparison 
-                data={summary.networkDataByExtension || {}} 
+                data={computeNetworkDataByExtension(analysisResult.requests)} 
                 mainBranchData={mainBranchNetworkData}
               />
             </div>
