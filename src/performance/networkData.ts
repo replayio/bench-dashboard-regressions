@@ -7,7 +7,11 @@ export function computeNetworkDataByExtension(requests: NetworkRequest[]) {
     try {
       const url = new URL(request.url);
       const pathname = url.pathname;
-      const ext = pathname.substring(pathname.lastIndexOf('.') + 1).toLowerCase() || 'no-extension';
+      let ext = pathname.substring(pathname.lastIndexOf('.') + 1).toLowerCase() || 'no-extension';
+      
+      if (ext.includes('/') || ext.length > 6) {
+        ext = 'unknown';
+      }
       
       if (!networkDataByExtension[ext]) {
         networkDataByExtension[ext] = 0;
