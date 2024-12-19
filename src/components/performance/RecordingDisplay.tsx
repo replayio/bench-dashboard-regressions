@@ -5,9 +5,10 @@ import { RecordingLink } from "./RecordingLink";
 interface RecordingDisplayProps {
   recordingId: string;
   recordingURL: string;
+  usePerformanceView?: boolean;
 }
 
-export function RecordingDisplay({ recordingId, recordingURL }: RecordingDisplayProps) {
+export function RecordingDisplay({ recordingId, recordingURL, usePerformanceView }: RecordingDisplayProps) {
   // TODO Get the actual recording metadata via GraphQL
   const url = new URL(recordingURL);
   const name = url.host;
@@ -20,6 +21,7 @@ export function RecordingDisplay({ recordingId, recordingURL }: RecordingDisplay
         point={undefined}
         time={undefined}
         recordingId={recordingId}
+        usePerformanceView={usePerformanceView}
       ></RecordingLink>
     </span>
   );
