@@ -42,20 +42,21 @@ export function NetworkDataComparison({ data, mainBranchData }: NetworkDataProps
     <div className="mt-2">
       <h4 className="font-semibold">Network Data by Extension:</h4>
       <div className="ml-4">
-        {Array.from(allExtensions).map(ext => {
-          const value = data[ext] || 0;
-          const mainValues = mainBranchData.map(d => d[ext] || 0);
-          return (
-            <ComparisonValue
-              key={ext}
-              label={ext}
-              value={value}
-              mainBranchValues={mainValues}
-              unit=" bytes"
-              formatFn={bytes => (bytes / 1024).toFixed(1) + " KB"}
-            />
-          );
-        })}
+        {Array.from(allExtensions)
+          .map(ext => {
+            const value = data[ext] || 0;
+            const mainValues = mainBranchData.map(d => d[ext] || 0);
+            return (
+              <ComparisonValue
+                key={ext}
+                label={ext}
+                value={value}
+                mainBranchValues={mainValues}
+                unit=" KB"
+                formatFn={bytes => (bytes / 1024).toFixed(1)}
+              />
+            );
+          })}
       </div>
     </div>
   );
