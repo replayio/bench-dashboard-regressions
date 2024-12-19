@@ -76,6 +76,7 @@ export default function RegressionMockup() {
               <RecordingDisplay 
                 recordingId={result.analysisResult?.spec.recordingId || ''} 
                 recordingURL={result.analysisResult?.recordingURL || ''}
+                usePerformanceView={true}
               />
               {index < mainBranchResults.length - 1 ? ', ' : ''}
             </span>
