@@ -9,7 +9,7 @@ export function computeNetworkDataByExtension(requests: NetworkRequest[]) {
       const pathname = url.pathname;
       let ext = pathname.substring(pathname.lastIndexOf('.') + 1).toLowerCase() || 'no-extension';
       
-      if (ext.includes('/') || ext.length > 6) {
+      if (ext.includes('/') || ext.length > 6 || ext === 'map') {
         ext = 'unknown';
       }
       
