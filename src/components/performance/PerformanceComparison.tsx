@@ -54,7 +54,7 @@ export function NetworkDataComparison({ data, mainBranchData }: NetworkDataProps
                 value={value}
                 mainBranchValues={mainValues}
                 unit=""
-                formatFn={bytes => (bytes / 1024).toFixed(1) + "KB"}
+                formatFn={bytes => (bytes / 1024).toFixed(1)}
               />
             );
           })}
